@@ -1,35 +1,47 @@
-// textNode.js
+import { useState, useEffect, useRef } from "react";
+import BaseNode from "../components/BaseNode";
 
-import { useState } from 'react';
-import { Handle, Position } from 'reactflow';
+const extractVariables = (text) => {
+  const regex = /{{\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*}}/g;
+  const matches = [];
+  let match;
+
+  while ((match = regex.exec(text))) {
+    matches.push(match[1]);
+  }
+
+  return [...new Set(matches)];
+};
 
 export const TextNode = ({ id, data }) => {
-  const [currText, setCurrText] = useState(data?.text || '{{input}}');
+  const [text, setText] = useState(data?.text || "{{input}}");
+  const [variables, setVariables] = useState([]);
+  const textareaRef = useRef();
 
-  const handleTextChange = (e) => {
-    setCurrText(e.target.value);
+  useEffect(() => {
+    setVariables(extractVariables(text));
+  }, [text]);
+
+  const handleChange = (e) => {
+    setText(e.target.value);
+
+    textareaRef.current.style.height = "auto";
+    textareaRef.current.style.height =
+      textareaRef.current.scrollHeight + "px";
   };
 
   return (
-    <div style={{width: 200, height: 80, border: '1px solid black'}}>
-      <div>
-        <span>Text</span>
-      </div>
-      <div>
-        <label>
-          Text:
-          <input 
-            type="text" 
-            value={currText} 
-            onChange={handleTextChange} 
-          />
-        </label>
-      </div>
-      <Handle
-        type="source"
-        position={Position.Right}
-        id={`${id}-output`}
+    <BaseNode
+      title="Text"
+      inputs={variables}
+      outputs={[`${id}-output`]}
+    >
+      <textarea
+        ref={textareaRef}
+        value={text}
+        onChange={handleChange}
+        className="w-full bg-transparent border border-gray-600 rounded p-1 text-xs resize-none outline-none"
       />
-    </div>
+    </BaseNode>
   );
-}
+};
