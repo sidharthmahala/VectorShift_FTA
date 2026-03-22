@@ -91,7 +91,7 @@ export const PipelineUI = () => {
             addNode(newNode);
           }
         },
-        [reactFlowInstance]
+        [reactFlowInstance,addNode, getNodeID]
     );
 
     const onDragOver = useCallback((event) => {
@@ -117,9 +117,8 @@ export const PipelineUI = () => {
                 connectionLineType='smoothstep'
             >
                 <Background 
-                    color="#0000ff" // Subtler dot color
-                    gap={gridSize} 
-                    style={{ backgroundColor: '#f0f4f8' }} // Light grey/blue canvas
+                    color="#aaa"
+                    gap={gridSize}
                 />
                 <Controls />
                 <MiniMap />
