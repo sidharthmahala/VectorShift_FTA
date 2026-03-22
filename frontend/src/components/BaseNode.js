@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 export const BaseNode = ({ 
   id, 
   title, 
+  icon: Icon,
   description, 
   nodeName, 
   setNodeName, 
@@ -11,14 +12,10 @@ export const BaseNode = ({
   handles = [], 
   style = {} 
 }) => {
-  // Access React Flow's internal state to delete nodes
   const { setNodes, setEdges } = useReactFlow();
 
-  // This will Remove the node and edges connected to this node
   const handleDelete = () => {
-    
     setNodes((nds) => nds.filter((node) => node.id !== id));
-    
     setEdges((eds) => eds.filter((edge) => edge.source !== id && edge.target !== id));
   };
 
@@ -27,28 +24,28 @@ export const BaseNode = ({
       minWidth: 300,
       background: '#ffffff',
       borderRadius: '16px',
-      border: '1px solid rgb(138, 138, 138)',
+      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04)',
+      border: '2px solid rgb(176, 170, 255)',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
       ...style
     }}>
       
-      {/* 1. Header Section */}
+      {/* --- Header --- */}
       <div style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '16px 20px',
-        border: '1px solid rgb(129, 129, 129)',
+        border: '1px solid rgb(138, 138, 138)',
         borderRadius: '10px',
-        margin:"10px 10px 10px 10px",
+        margin: "10px",
         background: '#B7BDF7'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          {/* Icon removed, just the title remains */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {Icon && <Icon size={20} color="#1d1d1f" />}
           <span style={{ fontWeight: '600', fontSize: '16px', color: '#1d1d1f' }}>{title}</span>
         </div>
         <div style={{ display: 'flex', color: '#86868b' }}>
-          {/* Functional Delete Button */}
           <X 
             size={18} 
             onClick={handleDelete}
@@ -59,17 +56,15 @@ export const BaseNode = ({
         </div>
       </div>
 
-      {/* Main Content Area */}
+      {/* --- Content --- */}
       <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
         
-        {/* Description */}
         {description && (
           <div style={{ fontSize: '13px', color: '#86868b', lineHeight: '1.4' }}>
             {description}
           </div>
         )}
 
-        {/* Node Name Pill */}
         {setNodeName && (
           <input 
             type="text" 
@@ -95,20 +90,19 @@ export const BaseNode = ({
               e.target.style.boxShadow = '0 0 0 3px rgba(0, 122, 255, 0.2)';
             }}
             onBlur={(e) => {
-              e.target.style.backgroundColor = '#f5f5f7';
+              e.target.style.backgroundColor = '#dfdfdf';
               e.target.style.borderColor = 'transparent';
               e.target.style.boxShadow = 'none';
             }}
           />
         )}
 
-        {/* Children (Dynamic inputs) */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {children}
         </div>
       </div>
 
-      {/* Handles */}
+      {/* --- Handles --- */}
       {handles.map((handle, index) => (
         <Handle
           key={`${id}-${handle.id}-${index}`}
