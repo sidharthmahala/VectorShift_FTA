@@ -1,18 +1,14 @@
-// submit.js
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
 
 export const SubmitButton = () => {
-    // 1. Extract nodes and edges from the global store
     const { nodes, edges } = useStore((state) => ({
         nodes: state.nodes,
         edges: state.edges
     }), shallow);
 
-    // 2. The function that runs when you click submit
     const handleSubmit = async () => {
         try {
-            // Send the data to the FastAPI backend
             const response = await fetch('http://127.0.0.1:8000/pipelines/parse', {
                 method: 'POST',
                 headers: {
@@ -25,10 +21,8 @@ export const SubmitButton = () => {
                 throw new Error('Failed to fetch from backend');
             }
 
-            // Parse the response
             const data = await response.json();
 
-            // 3. Display the user-friendly alert with the results
             alert(
                 `📊 Pipeline Analysis Complete!\n` +
                 `-----------------------------------\n` +
@@ -49,27 +43,26 @@ export const SubmitButton = () => {
                 type="button" 
                 onClick={handleSubmit}
                 style={{
-                    backgroundColor: '#007aff', // Classic iOS Blue
+                    backgroundColor: '#007aff',
                     color: '#ffffff',
                     padding: '12px 32px',
                     fontSize: '16px',
                     fontWeight: '600',
                     border: 'none',
-                    borderRadius: '8px', // Smooth pill shape
+                    borderRadius: '8px',
                     cursor: 'pointer',
-                    
-                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                    transition: 'background-color 0.2s ease', // Smooth color fade
                     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
                 }}
                 onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.backgroundColor = '#0062cc'; // Darkens slightly on hover
                 }}
                 onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.backgroundColor = '#007aff'; // Returns to original blue
                 }}
             >
                 Submit Pipeline
             </button>
         </div>
     );
-}
+};

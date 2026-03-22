@@ -5,7 +5,6 @@ export const CustomSelect = ({ value, onChange, options }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Close dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -18,8 +17,8 @@ export const CustomSelect = ({ value, onChange, options }) => {
 
   return (
     <div ref={dropdownRef} style={{ position: 'relative', width: '100%' }}>
-      {/* The Trigger Button */}
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
         style={{
           width: '100%',
@@ -50,7 +49,6 @@ export const CustomSelect = ({ value, onChange, options }) => {
         />
       </button>
 
-      {/* The Dropdown Menu */}
       {isOpen && (
         <div style={{
           position: 'absolute',
@@ -59,13 +57,13 @@ export const CustomSelect = ({ value, onChange, options }) => {
           right: 0,
           marginTop: '6px',
           backgroundColor: 'rgba(255, 255, 255, 0.85)',
-          backdropFilter: 'blur(12px)', // Apple's signature glass effect
+          backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
           border: '1px solid rgba(0,0,0,0.08)',
           borderRadius: '10px',
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
           padding: '6px',
-          zIndex: 1000, // Ensure it stays above other nodes
+          zIndex: 1000,
           display: 'flex',
           flexDirection: 'column',
           gap: '2px'
@@ -82,7 +80,7 @@ export const CustomSelect = ({ value, onChange, options }) => {
                 borderRadius: '6px',
                 fontSize: '14px',
                 color: value === option ? '#ffffff' : '#1d1d1f',
-                backgroundColor: value === option ? '#007aff' : 'transparent', // Blue highlight for selected
+                backgroundColor: value === option ? '#007aff' : 'transparent',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
@@ -90,10 +88,10 @@ export const CustomSelect = ({ value, onChange, options }) => {
                 transition: 'background-color 0.1s ease'
               }}
               onMouseEnter={(e) => {
-                if (value !== option) e.target.style.backgroundColor = '#f5f5f7';
+                if (value !== option) e.currentTarget.style.backgroundColor = '#f5f5f7';
               }}
               onMouseLeave={(e) => {
-                if (value !== option) e.target.style.backgroundColor = 'transparent';
+                if (value !== option) e.currentTarget.style.backgroundColor = 'transparent';
               }}
             >
               <span>{option}</span>
