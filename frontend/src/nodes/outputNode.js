@@ -1,47 +1,45 @@
 // outputNode.js
-
 import { useState } from 'react';
-import { Handle, Position } from 'reactflow';
+import { Position } from 'reactflow';
+import { BaseNode } from '../components/BaseNode';
+import { CustomSelect } from '../components/CustomSelect';
+
+// Reusable label component
+const FieldLabel = ({ label, tag }) => (
+  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+    <div style={{ fontSize: '13px', color: '#515154', fontWeight: '500' }}>
+      {label}
+    </div>
+    {tag && (
+      <span style={{ fontSize: '11px', color: '#9065B0', fontWeight: '600', backgroundColor: '#F4F0F9', padding: '2px 6px', borderRadius: '4px' }}>
+        {tag}
+      </span>
+    )}
+  </div>
+);
 
 export const OutputNode = ({ id, data }) => {
   const [currName, setCurrName] = useState(data?.outputName || id.replace('customOutput-', 'output_'));
   const [outputType, setOutputType] = useState(data.outputType || 'Text');
 
-  const handleNameChange = (e) => {
-    setCurrName(e.target.value);
-  };
-
-  const handleTypeChange = (e) => {
-    setOutputType(e.target.value);
-  };
-
   return (
-    <div style={{width: 200, height: 80, border: '1px solid black'}}>
-      <Handle
-        type="target"
-        position={Position.Left}
-        id={`${id}-value`}
-      />
+    <BaseNode
+      id={id}
+      title="Output"
+      description="Output data of different types from your workflow."
+      nodeName={currName}
+      setNodeName={setCurrName}
+      // Target handle on the left
+      handles={[{ type: 'target', position: Position.Left, id: 'value', style: { left: '-7px' } }]}
+    >
       <div>
-        <span>Output</span>
+        <FieldLabel label="Type" tag="Dropdown" />
+        <CustomSelect 
+          value={outputType} 
+          onChange={(newValue) => setOutputType(newValue)} 
+          options={['Text', 'Image']} 
+        />
       </div>
-      <div>
-        <label>
-          Name:
-          <input 
-            type="text" 
-            value={currName} 
-            onChange={handleNameChange} 
-          />
-        </label>
-        <label>
-          Type:
-          <select value={outputType} onChange={handleTypeChange}>
-            <option value="Text">Text</option>
-            <option value="File">Image</option>
-          </select>
-        </label>
-      </div>
-    </div>
+    </BaseNode>
   );
-}
+};
