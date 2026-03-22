@@ -1,17 +1,14 @@
-// llmNode.js
 import { useState } from 'react';
 import { Position } from 'reactflow';
 import { BaseNode } from '../components/BaseNode';
+import { BrainCircuit } from 'lucide-react';
 
 export const LLMNode = ({ id, data }) => {
-  // Added a name state so it matches the consistent styling of other nodes
   const [currName, setCurrName] = useState(data?.llmName || id.replace('customLLM-', 'llm_'));
 
   const handles = [
-    // Two inputs on the left, spaced out evenly
     { type: 'target', position: Position.Left, id: 'system', style: { top: '33%', left: '-7px' } },
     { type: 'target', position: Position.Left, id: 'prompt', style: { top: '66%', left: '-7px' } },
-    // One output on the right
     { type: 'source', position: Position.Right, id: 'response', style: { right: '-7px' } }
   ];
 
@@ -19,6 +16,7 @@ export const LLMNode = ({ id, data }) => {
     <BaseNode
       id={id}
       title="LLM"
+      icon={BrainCircuit}
       description="A large language model to process text and generate responses."
       nodeName={currName}
       setNodeName={setCurrName}

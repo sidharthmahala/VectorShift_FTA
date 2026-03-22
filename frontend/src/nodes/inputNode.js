@@ -2,8 +2,8 @@
 import { useState } from 'react';
 import { Position } from 'reactflow';
 import { BaseNode } from '../components/BaseNode';
-import { Info } from 'lucide-react';
 import { CustomSelect } from '../components/CustomSelect';
+import { Info, LogIn } from 'lucide-react'; // <-- Imported LogIn for the header
 
 const FieldLabel = ({ label, tag }) => (
   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
@@ -26,7 +26,8 @@ export const InputNode = ({ id, data }) => {
   return (
     <BaseNode
       id={id}
-      title="Input" // Icon prop completely removed
+      title="Input"
+      icon={LogIn} // <-- Added the icon back to the header
       description="Pass data of different types into your workflow."
       nodeName={currName}
       setNodeName={setCurrName}
@@ -36,7 +37,7 @@ export const InputNode = ({ id, data }) => {
         <FieldLabel label="Type" tag="Dropdown" />
         <CustomSelect 
           value={inputType} 
-          onChange={(newValue) => setInputType(newValue)} 
+          onChange={setInputType} // <-- Optimized to pass the reference directly
           options={['Text', 'File']} 
         />
       </div>
