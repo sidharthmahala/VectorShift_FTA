@@ -11,6 +11,12 @@ import { LLMNode } from './nodes/llmNode';
 import { OutputNode } from './nodes/outputNode';
 import { TextNode } from './nodes/textNode';
 
+import { ApiNode } from './nodes/apiNode';
+import { EmailNode } from './nodes/emailNode';
+import { MathNode } from './nodes/mathNode';
+import { DelayNode } from './nodes/delayNode';
+import { DatabaseNode } from './nodes/databaseNode';
+
 import 'reactflow/dist/style.css';
 
 const gridSize = 20;
@@ -20,6 +26,11 @@ const nodeTypes = {
   llm: LLMNode,
   customOutput: OutputNode,
   text: TextNode,
+  api: ApiNode,             
+  email: EmailNode,         
+  math: MathNode,           
+  delay: DelayNode,         
+  database: DatabaseNode,   
 };
 
 const selector = (state) => ({
@@ -105,7 +116,11 @@ export const PipelineUI = () => {
                 snapGrid={[gridSize, gridSize]}
                 connectionLineType='smoothstep'
             >
-                <Background color="#aaa" gap={gridSize} />
+                <Background 
+                    color="#0000ff" // Subtler dot color
+                    gap={gridSize} 
+                    style={{ backgroundColor: '#f0f4f8' }} // Light grey/blue canvas
+                />
                 <Controls />
                 <MiniMap />
             </ReactFlow>
